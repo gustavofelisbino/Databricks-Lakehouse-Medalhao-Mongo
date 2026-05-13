@@ -19,8 +19,9 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install MkDocs Material
-        run: pip install mkdocs-material
+      - name: Install MkDocs and plugins
+        run: |
+          pip install mkdocs-material pymdown-extensions
 
       - name: Deploy to gh-pages
         run: mkdocs gh-deploy --force --no-history
