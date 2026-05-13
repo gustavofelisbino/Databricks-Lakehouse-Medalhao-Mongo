@@ -1,0 +1,382 @@
+/* ============================================================
+   Lakehouse Medalhão — extra.css
+   Tema: Deep Purple + Amber | Camadas: Landing / Bronze / Silver / Gold
+   ============================================================ */
+
+/* ------------------------------------------------------------------
+   1. Variáveis de cor — camadas medalhão + paleta vibrante
+   ------------------------------------------------------------------ */
+:root {
+  --accent-landing: #64748b;   /* slate — dado bruto */
+  --accent-bronze:  #c2410c;   /* copper saturado */
+  --accent-silver:  #475569;   /* prata escura */
+  --accent-gold:    #d97706;   /* dourado caloroso */
+
+  --hero-grad-1: #7c3aed;   /* purple-600 */
+  --hero-grad-2: #db2777;   /* pink-600 */
+  --hero-grad-3: #f59e0b;   /* amber-500 */
+
+  --shadow-soft: 0 1px 2px rgba(0,0,0,0.04), 0 10px 30px rgba(124,58,237,0.10);
+  --shadow-pop:  0 1px 2px rgba(0,0,0,0.04), 0 16px 40px rgba(124,58,237,0.18);
+}
+
+/* Utility classes para uso inline */
+.accent-landing { color: var(--accent-landing) !important; font-weight: 600; }
+.accent-bronze  { color: var(--accent-bronze)  !important; font-weight: 600; }
+.accent-silver  { color: var(--accent-silver)  !important; font-weight: 600; }
+.accent-gold    { color: var(--accent-gold)    !important; font-weight: 600; }
+
+/* ------------------------------------------------------------------
+   2. Tipografia
+   ------------------------------------------------------------------ */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.md-typeset h2 {
+  margin-top: 3rem;
+  font-size: 1.6rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset h3 { margin-top: 2.2rem; }
+
+/* Links com cor de destaque */
+.md-typeset a {
+  transition: color .18s ease, text-decoration-color .18s ease;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+.md-typeset a:hover {
+  color: var(--md-accent-fg-color);
+}
+
+/* ------------------------------------------------------------------
+   3. Hero — título e subtítulo com gradiente animado
+   ------------------------------------------------------------------ */
+.md-typeset h1.hero-title,
+.md-typeset .hero-title {
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  margin: 2.5rem 0 1.2rem;
+  background: linear-gradient(
+    100deg,
+    var(--hero-grad-1) 0%,
+    var(--hero-grad-2) 50%,
+    var(--hero-grad-3) 100%
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: hero-shift 12s ease-in-out infinite alternate;
+}
+
+@keyframes hero-shift {
+  0%   { background-position:   0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.md-typeset .hero-subtitle {
+  font-size: 1.1rem;
+  line-height: 1.65;
+  max-width: 44rem;
+  margin: 0 0 1.8rem;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-typeset .hero-badge {
+  display: inline-block;
+  padding: 0.25rem 0.8rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(124,58,237,0.12), rgba(245,158,11,0.12));
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+/* ------------------------------------------------------------------
+   4. Botões — hover lift colorido
+   ------------------------------------------------------------------ */
+.md-typeset .md-button {
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+  border-radius: 10px;
+}
+
+.md-typeset .md-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.30);
+}
+
+.md-typeset .md-button + .md-button { margin-left: .4rem; }
+
+.md-typeset .md-button--primary {
+  background: linear-gradient(135deg, var(--hero-grad-1), var(--hero-grad-2));
+  border: none;
+  color: white !important;
+}
+
+/* ------------------------------------------------------------------
+   5. Cards grid — hover lift + glow
+   ------------------------------------------------------------------ */
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid > .card {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 14px;
+  padding: 1.4rem 1.3rem;
+  background: var(--md-default-bg-color);
+  transition:
+    transform .28s cubic-bezier(.2,.8,.2,1),
+    box-shadow .28s cubic-bezier(.2,.8,.2,1),
+    border-color .28s ease;
+}
+
+.md-typeset .grid.cards > ul > li:hover,
+.md-typeset .grid > .card:hover {
+  transform: translateY(-4px);
+  border-color: var(--md-primary-fg-color);
+  box-shadow: var(--shadow-pop);
+}
+
+/* ------------------------------------------------------------------
+   6. Cards de camada com borda lateral colorida
+   ------------------------------------------------------------------ */
+.card-landing { border-left: 4px solid var(--accent-landing) !important; }
+.card-bronze  { border-left: 4px solid var(--accent-bronze)  !important; }
+.card-silver  { border-left: 4px solid var(--accent-silver)  !important; }
+.card-gold    { border-left: 4px solid var(--accent-gold)    !important; }
+
+/* ------------------------------------------------------------------
+   7. Scroll-reveal
+   ------------------------------------------------------------------ */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .7s cubic-bezier(.22,1,.36,1),
+              transform .7s cubic-bezier(.22,1,.36,1);
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+.grid.cards.reveal > ul > li {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity .65s cubic-bezier(.22,1,.36,1),
+    transform .65s cubic-bezier(.22,1,.36,1),
+    border-color .28s ease,
+    box-shadow .28s cubic-bezier(.2,.8,.2,1);
+}
+.grid.cards.reveal.is-visible > ul > li { opacity: 1; transform: none; }
+.grid.cards.reveal.is-visible > ul > li:nth-child(1) { transition-delay:   0ms; }
+.grid.cards.reveal.is-visible > ul > li:nth-child(2) { transition-delay:  90ms; }
+.grid.cards.reveal.is-visible > ul > li:nth-child(3) { transition-delay: 180ms; }
+.grid.cards.reveal.is-visible > ul > li:nth-child(4) { transition-delay: 270ms; }
+.grid.cards.reveal.is-visible > ul > li:nth-child(5) { transition-delay: 360ms; }
+.grid.cards.reveal.is-visible > ul > li:nth-child(6) { transition-delay: 450ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .grid.cards.reveal > ul > li,
+  .md-typeset h1.hero-title,
+  .md-typeset .hero-title {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+   8. Tabelas
+   ------------------------------------------------------------------ */
+.md-typeset table:not([class]) {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  box-shadow: var(--shadow-soft);
+}
+
+.md-typeset table:not([class]) th {
+  background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(245,158,11,0.08));
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.md-typeset table:not([class]) tr:hover td {
+  background: rgba(124, 58, 237, 0.04);
+}
+
+/* ------------------------------------------------------------------
+   9. Código & admonitions — borda colorida + sombra
+   ------------------------------------------------------------------ */
+.md-typeset pre > code {
+  border-radius: 10px;
+  box-shadow: var(--shadow-soft);
+}
+
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+/* Admonition title com mais peso visual */
+.md-typeset .admonition-title,
+.md-typeset summary {
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------------
+   10. Blockquotes com barra colorida
+   ------------------------------------------------------------------ */
+.md-typeset blockquote {
+  border-left: 4px solid var(--md-primary-fg-color);
+  background: linear-gradient(90deg, rgba(124,58,237,0.06), transparent);
+  border-radius: 6px;
+  padding: 0.6rem 1rem;
+}
+
+/* ------------------------------------------------------------------
+   11. Horizontal rule colorida
+   ------------------------------------------------------------------ */
+.md-typeset hr {
+  border: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-bronze) 25%,
+    var(--accent-silver) 50%,
+    var(--accent-gold) 75%,
+    transparent
+  );
+  margin: 2.5rem 0;
+}
+
+/* ------------------------------------------------------------------
+   12. Scroll suave + TOC sticky
+   ------------------------------------------------------------------ */
+.md-main__inner { scroll-behavior: smooth; }
+
+@media screen and (min-width: 76.1875em) {
+  .md-sidebar--secondary {
+    position: sticky;
+    top: 3.8rem;
+    height: calc(100vh - 3.8rem);
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+}
+
+/* ------------------------------------------------------------------
+   13. Ícones grandes nos cards
+   ------------------------------------------------------------------ */
+.md-typeset .grid.cards .twemoji,
+.md-typeset .grid.cards .md-icon {
+  font-size: 1.5rem;
+}
+
+.md-typeset .twemoji.lg svg,
+.md-typeset svg.lg {
+  height: 1.6em;
+  width: 1.6em;
+  vertical-align: -0.35em;
+}
+
+/* ------------------------------------------------------------------
+   14. Pipeline step pills
+   ------------------------------------------------------------------ */
+.pipeline-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  font-family: var(--md-code-font);
+  letter-spacing: 0.02em;
+}
+
+.pipeline-landing {
+  background: linear-gradient(135deg, rgba(100,116,139,0.15), rgba(100,116,139,0.05));
+  color: var(--accent-landing);
+  border: 1px solid var(--accent-landing);
+}
+.pipeline-bronze  {
+  background: linear-gradient(135deg, rgba(194,65,12,0.18), rgba(194,65,12,0.05));
+  color: var(--accent-bronze);
+  border: 1px solid var(--accent-bronze);
+}
+.pipeline-silver  {
+  background: linear-gradient(135deg, rgba(71,85,105,0.18), rgba(71,85,105,0.05));
+  color: var(--accent-silver);
+  border: 1px solid var(--accent-silver);
+}
+.pipeline-gold    {
+  background: linear-gradient(135deg, rgba(217,119,6,0.22), rgba(217,119,6,0.05));
+  color: var(--accent-gold);
+  border: 1px solid var(--accent-gold);
+}
+
+/* ------------------------------------------------------------------
+   15. Largura do conteúdo
+   ------------------------------------------------------------------ */
+.md-content__inner { max-width: 56rem; }
+
+/* ------------------------------------------------------------------
+   16. Tabs (pymdownx.tabbed) — visual mais marcado
+   ------------------------------------------------------------------ */
+.md-typeset .tabbed-set > input:checked + label {
+  color: var(--md-primary-fg-color);
+  font-weight: 700;
+}
+.md-typeset .tabbed-set > label {
+  transition: color .2s ease;
+}
+
+/* ------------------------------------------------------------------
+   17. Code highlights — borda lateral sutil
+   ------------------------------------------------------------------ */
+.md-typeset .highlight {
+  border-radius: 10px;
+  position: relative;
+}
+
+/* ------------------------------------------------------------------
+   18. Dark mode — ajustes de contraste
+   ------------------------------------------------------------------ */
+[data-md-color-scheme="slate"] {
+  --shadow-soft: 0 1px 2px rgba(0,0,0,0.3), 0 10px 30px rgba(124,58,237,0.15);
+  --shadow-pop:  0 1px 2px rgba(0,0,0,0.3), 0 16px 40px rgba(124,58,237,0.25);
+}
+
+[data-md-color-scheme="slate"] .md-typeset h1.hero-title,
+[data-md-color-scheme="slate"] .md-typeset .hero-title {
+  background: linear-gradient(100deg, #a78bfa 0%, #f472b6 50%, #fbbf24 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-md-color-scheme="slate"] .md-typeset blockquote {
+  background: linear-gradient(90deg, rgba(167,139,250,0.10), transparent);
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) th {
+  background: linear-gradient(135deg, rgba(167,139,250,0.15), rgba(251,191,36,0.10));
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) tr:hover td {
+  background: rgba(167, 139, 250, 0.06);
+}
