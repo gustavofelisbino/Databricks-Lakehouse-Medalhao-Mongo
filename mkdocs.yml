@@ -1,0 +1,36 @@
+site_name: Lakehouse Medalhão (Databricks + MongoDB)
+site_description: Pipeline Landing → Bronze → Silver → Gold com Jobs & Pipelines
+site_author: Gustavo Dias
+
+theme:
+  name: material
+  language: pt
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+
+nav:
+  - Início: index.md
+  - Arquitetura: arquitetura.md
+  - Camadas:
+    - Landing: camadas/landing.md
+    - Bronze: camadas/bronze.md
+    - Silver: camadas/silver.md
+    - Gold: camadas/gold.md
+  - Modelo Dimensional: modelo-dimensional.md
+  - Job & Pipeline: job-pipeline.md
+  - Setup MongoDB: setup-mongo.md
+  - Runbook Databricks: runbook-databricks.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - tables
+  - toc:
+      permalink: true
