@@ -1,18 +1,93 @@
-site_name: Lakehouse Medalhão (Databricks + MongoDB)
-site_description: Pipeline Landing → Bronze → Silver → Gold com Jobs & Pipelines
+site_name: Lakehouse Medalhão — Databricks + MongoDB
+site_description: Pipeline Landing → Bronze → Silver → Gold com Delta Lake, Unity Catalog e star schema Ralph Kimball
 site_author: Gustavo Dias
+site_url: https://gustavofelisbino.github.io/Databricks-Lakehouse-Medalhao-Mongo/
+
+repo_url: https://github.com/gustavofelisbino/Databricks-Lakehouse-Medalhao-Mongo
+repo_name: gustavofelisbino/Databricks-Lakehouse-Medalhao-Mongo
+edit_uri: edit/main/docs/
+
+copyright: >
+  &copy; 2024–2025 Gustavo Dias &mdash; Projeto Acadêmico &mdash;
+  <a href="#__consent">Cookies</a>
 
 theme:
   name: material
   language: pt
+  icon:
+    logo: material/layers-triple-outline
+    repo: fontawesome/brands/github
+  favicon: assets/favicon.svg
   palette:
-    - scheme: default
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
       primary: indigo
-      accent: indigo
+      accent: cyan
+      toggle:
+        icon: material/weather-night
+        name: Alternar para modo escuro
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/weather-sunny
+        name: Alternar para modo claro
+  font:
+    text: Inter
+    code: JetBrains Mono
   features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - search.share
     - content.code.copy
+    - content.code.select
+    - content.code.annotate
+    - content.tabs.link
+    - content.tooltips
+    - content.action.edit
+    - content.action.view
+    - toc.follow
+
+plugins:
+  - search:
+      lang: pt
+  - tags
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/gustavofelisbino
+      name: GitHub de Gustavo
+  analytics:
+    feedback:
+      title: Esta página foi útil?
+      ratings:
+        - icon: material/thumb-up-outline
+          name: Sim
+          data: 1
+          note: Obrigado pelo feedback!
+        - icon: material/thumb-down-outline
+          name: Não
+          data: 0
+          note: Obrigado — vamos melhorar!
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/extra.js
 
 nav:
   - Início: index.md
@@ -29,8 +104,36 @@ nav:
 
 markdown_extensions:
   - admonition
-  - pymdownx.superfences
-  - pymdownx.tabbed
   - tables
+  - attr_list
+  - md_in_html
+  - def_list
+  - footnotes
+  - abbr
   - toc:
       permalink: true
+      permalink_title: Link permanente para esta seção
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.caret
+  - pymdownx.tilde
+  - pymdownx.mark
+  - pymdownx.keys
+  - pymdownx.smartsymbols
+  - pymdownx.tasklist:
+      custom_checkbox: true

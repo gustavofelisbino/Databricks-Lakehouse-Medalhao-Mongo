@@ -1,0 +1,285 @@
+/* ============================================================
+   Lakehouse Medalhão — extra.css
+   Tema: Indigo + Cyan | Camadas: Landing / Bronze / Silver / Gold
+   ============================================================ */
+
+/* ------------------------------------------------------------------
+   1. Variáveis de cor — camadas medalh‍ão
+   ------------------------------------------------------------------ */
+:root {
+  --accent-landing: #94a3b8;   /* slate — dado bruto */
+  --accent-bronze:  #b45309;   /* âmbar escuro — copper */
+  --accent-silver:  #64748b;   /* cinza-azulado */
+  --accent-gold:    #eab308;   /* amarelo ouro */
+}
+
+/* Utility classes para uso inline nos markdowns */
+.accent-landing { color: var(--accent-landing) !important; }
+.accent-bronze  { color: var(--accent-bronze)  !important; }
+.accent-silver  { color: var(--accent-silver)  !important; }
+.accent-gold    { color: var(--accent-gold)    !important; }
+
+/* ------------------------------------------------------------------
+   2. Tipografia
+   ------------------------------------------------------------------ */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.md-typeset h2 {
+  margin-top: 3rem;
+  font-size: 1.6rem;
+}
+
+.md-typeset h3 {
+  margin-top: 2.2rem;
+}
+
+/* ------------------------------------------------------------------
+   3. Hero — título e subtítulo da landing page
+   ------------------------------------------------------------------ */
+.md-typeset h1.hero-title,
+.md-typeset .hero-title {
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  margin: 2.5rem 0 1.2rem;
+  background: linear-gradient(135deg, var(--md-primary-fg-color), #22d3ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.md-typeset .hero-subtitle {
+  font-size: 1.1rem;
+  line-height: 1.65;
+  max-width: 44rem;
+  margin: 0 0 1.8rem;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Badge pill para versão/status */
+.md-typeset .hero-badge {
+  display: inline-block;
+  padding: 0.2rem 0.75rem;
+  border-radius: 999px;
+  background: var(--md-code-bg-color);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+/* ------------------------------------------------------------------
+   4. Botões — hover lift
+   ------------------------------------------------------------------ */
+.md-typeset .md-button {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.md-typeset .md-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
+}
+
+.md-typeset .md-button + .md-button {
+  margin-left: 0.4rem;
+}
+
+/* ------------------------------------------------------------------
+   5. Cards grid — hover lift + borda animada
+   ------------------------------------------------------------------ */
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid > .card {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 14px;
+  padding: 1.4rem 1.3rem;
+  background: var(--md-default-bg-color);
+  transition:
+    transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.28s ease;
+}
+
+.md-typeset .grid.cards > ul > li:hover,
+.md-typeset .grid > .card:hover {
+  transform: translateY(-4px);
+  border-color: var(--md-primary-fg-color);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 12px 30px rgba(99, 102, 241, 0.12);
+}
+
+/* ------------------------------------------------------------------
+   6. Cards de camada com borda colorida lateral
+   ------------------------------------------------------------------ */
+.card-landing {
+  border-left: 4px solid var(--accent-landing) !important;
+}
+
+.card-bronze {
+  border-left: 4px solid var(--accent-bronze) !important;
+}
+
+.card-silver {
+  border-left: 4px solid var(--accent-silver) !important;
+}
+
+.card-gold {
+  border-left: 4px solid var(--accent-gold) !important;
+}
+
+/* ------------------------------------------------------------------
+   7. Scroll-reveal
+   ------------------------------------------------------------------ */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Grid cards reveal com cascade */
+.grid.cards.reveal > ul > li {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.28s ease,
+              box-shadow 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.grid.cards.reveal.is-visible > ul > li {
+  opacity: 1;
+  transform: none;
+}
+
+.grid.cards.reveal.is-visible > ul > li:nth-child(1) { transition-delay:   0ms; }
+.grid.cards.reveal.is-visible > ul > li:nth-child(2) { transition-delay:  90ms; }
+.grid.cards.reveal.is-visible > ul > li:nth-child(3) { transition-delay: 180ms; }
+.grid.cards.reveal.is-visible > ul > li:nth-child(4) { transition-delay: 270ms; }
+.grid.cards.reveal.is-visible > ul > li:nth-child(5) { transition-delay: 360ms; }
+.grid.cards.reveal.is-visible > ul > li:nth-child(6) { transition-delay: 450ms; }
+
+/* ------------------------------------------------------------------
+   8. Reduced motion — acessibilidade
+   ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .grid.cards.reveal > ul > li {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+   9. Tabelas com cantos arredondados
+   ------------------------------------------------------------------ */
+.md-typeset table:not([class]) {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset table:not([class]) th {
+  background: var(--md-code-bg-color);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.md-typeset table:not([class]) td {
+  vertical-align: top;
+}
+
+/* ------------------------------------------------------------------
+   10. Código e admonitions
+   ------------------------------------------------------------------ */
+.md-typeset pre > code {
+  border-radius: 10px;
+}
+
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------------
+   11. Scroll suave
+   ------------------------------------------------------------------ */
+.md-main__inner {
+  scroll-behavior: smooth;
+}
+
+/* ------------------------------------------------------------------
+   12. TOC sticky — reforço para páginas longas
+   ------------------------------------------------------------------ */
+@media screen and (min-width: 76.1875em) {
+  .md-sidebar--secondary {
+    position: sticky;
+    top: 3.8rem; /* altura do header */
+    height: calc(100vh - 3.8rem);
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+}
+
+/* ------------------------------------------------------------------
+   13. Ícones grandes nos cards
+   ------------------------------------------------------------------ */
+.md-typeset .grid.cards .twemoji,
+.md-typeset .grid.cards .md-icon {
+  font-size: 1.5rem;
+}
+
+/* ------------------------------------------------------------------
+   14. Medallion flow — pipeline visual
+   ------------------------------------------------------------------ */
+.pipeline-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  font-family: var(--md-code-font);
+}
+
+.pipeline-landing { background: rgba(148, 163, 184, 0.15); color: var(--accent-landing); border: 1px solid var(--accent-landing); }
+.pipeline-bronze  { background: rgba(180,  83,   9, 0.12); color: var(--accent-bronze);  border: 1px solid var(--accent-bronze); }
+.pipeline-silver  { background: rgba(100, 116, 139, 0.15); color: var(--accent-silver);  border: 1px solid var(--accent-silver); }
+.pipeline-gold    { background: rgba(234, 179,   8, 0.15); color: #a16207;               border: 1px solid var(--accent-gold); }
+
+/* ------------------------------------------------------------------
+   15. Ajuste de largura para conteúdo rico
+   ------------------------------------------------------------------ */
+.md-content__inner {
+  max-width: 56rem;
+}
+
+/* ------------------------------------------------------------------
+   16. Dark mode — ajustes de contraste
+   ------------------------------------------------------------------ */
+[data-md-color-scheme="slate"] .md-typeset h1.hero-title,
+[data-md-color-scheme="slate"] .md-typeset .hero-title {
+  background: linear-gradient(135deg, #818cf8, #22d3ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-md-color-scheme="slate"] .pipeline-gold {
+  color: var(--accent-gold);
+}

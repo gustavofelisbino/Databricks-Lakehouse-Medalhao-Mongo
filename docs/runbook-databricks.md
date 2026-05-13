@@ -1,108 +1,219 @@
-# Runbook Databricks — operação ponta-a-ponta
+---
+tags:
+  - runbook
+  - operação
+  - databricks
+  - passo a passo
+---
 
-Tudo é feito na UI do Databricks Free Edition + Atlas (web). Sem Python local.
+# :material-play-circle: Runbook Databricks — Operação Ponta a Ponta
 
-## Pré-requisitos
+Tudo é feito pela **UI do Databricks Free Edition + MongoDB Atlas** (web).
+Sem instalação local de Python ou ferramentas — apenas um navegador.
 
-- Conta no Databricks Free Edition (Serverless habilitado).
-- Cluster M0 no MongoDB Atlas configurado conforme [Setup MongoDB](setup-mongo.md), com connection string em mãos.
+---
 
-## Passo 1 — Conectar o repositório no Databricks
+## :material-check-all: Pré-requisitos
 
-1. **Workspace** → botão **Add** → **Git folder**.
-2. URL: `https://github.com/<seu-usuario>/Databricks-Lakehouse-Medalhao-Mongo` · Provider: GitHub · Branch: `main`.
-3. **Create**. O clone aparecerá em `/Workspace/Users/<seu-email>/Databricks-Lakehouse-Medalhao-Mongo`.
+!!! abstract "Antes de começar"
+    - [x] Conta no **Databricks Free Edition** com Serverless habilitado
+    - [x] Cluster **M0** no MongoDB Atlas configurado conforme [Setup MongoDB](setup-mongo.md)
+    - [x] Connection string do Atlas em mãos (`mongodb+srv://...`)
+    - [x] Repositório clonado/forkado no GitHub
 
-## Passo 2 — Configurar credencial Mongo
+---
 
-### Opção A — Secret Scope (recomendado)
+## :material-numeric-1-circle: Conectar o Repositório no Databricks
 
-Em um terminal com Databricks CLI instalado:
-
-```bash
-pip install databricks-cli
-databricks auth login --host https://<seu-workspace>.cloud.databricks.com
-databricks secrets create-scope mongo
-databricks secrets put-secret mongo uri
-# (cole a connection string quando solicitado)
+```mermaid
+flowchart LR
+    A["Databricks Workspace"] -->|"Add → Git folder"| B["URL do GitHub"]
+    B -->|"Provider: GitHub\nBranch: main"| C["Git Folder clonado\n/Workspace/Users/..."]
+    style C fill:#6366f1,color:#fff,stroke:#4338ca
 ```
 
-### Opção B — Job Parameter (fallback, 100% UI)
+- [ ] **Workspace** → botão **Add** → **Git folder**
+- [ ] **URL:** `https://github.com/gustavofelisbino/Databricks-Lakehouse-Medalhao-Mongo`
+- [ ] **Provider:** GitHub · **Branch:** `main`
+- [ ] Clique em **Create**
 
-Pula o secret scope. A string será passada como parâmetro do Job (Passo 5). O notebook lê automaticamente do widget se o secret não existir.
+O clone aparecerá em:
+```
+/Workspace/Users/<seu-email>/Databricks-Lakehouse-Medalhao-Mongo/
+```
 
-## Passo 3 — Setup e seed (uma vez)
+---
 
-1. Abrir e **Run** `notebooks/00_setup_ambiente.py`.
-   - Verificar output: 4 schemas + 2 volumes em `workspace`.
-2. **Catalog Explorer** → `workspace` → `landing` → volume `csv_raw` → botão **Upload to this volume** → selecionar os 11 CSVs de `data/raw/`.
-3. Abrir e **Run** `notebooks/00b_seed_csv_para_mongo.py`.
-   - Output esperado: 11 linhas `<col>: N docs inseridos`.
-4. Conferir no Atlas: **Browse Collections** → banco `seguradora` com 11 collections.
+## :material-numeric-2-circle: Configurar Credencial MongoDB
 
-## Passo 4 — Sanity check da extração
+Escolha uma das opções:
 
-Antes de criar o Job, validar manualmente:
+=== "Opção A — Secret Scope (recomendado)"
 
-- Abrir e **Run** `notebooks/01_landing_extracao_mongo.py`.
-- Output: 11 linhas `<col>: N docs → /Volumes/.../<col>.json`.
-- Última célula: `dbutils.fs.ls` deve mostrar 11 arquivos `.json`.
+    Seguro: a connection string não fica visível nos logs ou na UI.
 
-Se falhar, problema na credencial ou network do Atlas.
+    Em um terminal com **Databricks CLI** instalado:
 
-## Passo 5 — Criar o Job
+    ```bash
+    pip install databricks-cli
+    databricks auth login --host https://<seu-workspace>.cloud.databricks.com
+    databricks secrets create-scope mongo
+    databricks secrets put-secret mongo uri
+    # Cole a connection string completa quando solicitado
+    ```
 
-UI → **Jobs & Pipelines** → **Create Job** → nome `pipeline_seguradora_medalhao`.
+    !!! success "Verificar"
+        ```bash
+        databricks secrets list --scope mongo
+        # Deve aparecer: uri
+        ```
 
-Adicionar **5 tasks** sequenciais:
+=== "Opção B — Job Parameter (100% UI)"
 
-| # | Task name | Type | Notebook path (do Git Folder) | Depends on |
-|---|---|---|---|---|
-| 1 | `setup` | Notebook | `notebooks/00_setup_ambiente` | (none) |
+    Sem instalação de CLI. A string será passada como parâmetro do Job
+    no Passo 5. O notebook lê automaticamente do widget se o secret não existir.
+
+    Não é necessário fazer nada aqui — configure no Passo 5.
+
+---
+
+## :material-numeric-3-circle: Setup Inicial (executar uma vez)
+
+!!! info "Esta etapa é executada apenas na primeira vez"
+    Cria os schemas e volumes necessários no workspace.
+
+- [ ] No Git Folder, abrir **`notebooks/00_setup_ambiente.py`**
+- [ ] Clicar em **Run all** (ou ++shift+enter++ em cada célula)
+- [ ] Verificar output: deve mostrar **4 schemas criados** + **2 volumes em `workspace`**
+- [ ] Ir ao **Catalog Explorer** → `workspace` → schema `landing` → volume `csv_raw`
+- [ ] Clicar em **Upload to this volume**
+- [ ] Selecionar os **11 CSVs** de `data/raw/` do repositório local
+- [ ] Abrir **`notebooks/00b_seed_csv_para_mongo.py`** → **Run all**
+- [ ] Output esperado: 11 linhas `<collection>: N docs inseridos`
+- [ ] Confirmar no Atlas: **Browse Collections** → banco `seguradora` deve ter **11 collections**
+
+---
+
+## :material-numeric-4-circle: Sanity Check da Extração
+
+!!! tip "Validação manual antes de criar o Job"
+    Execute o notebook de landing individualmente para confirmar que a conexão
+    com o MongoDB está funcionando.
+
+- [ ] Abrir **`notebooks/01_landing_extracao_mongo.py`** → **Run all**
+- [ ] Output esperado: 11 linhas `<col>: N docs → /Volumes/.../<col>.json`
+- [ ] Última célula: `dbutils.fs.ls(...)` deve mostrar **11 arquivos `.json`**
+
+!!! failure "Se falhar aqui"
+    O problema é na credencial ou no Network Access do Atlas.
+    Consulte a seção [Troubleshooting](#troubleshooting) abaixo.
+
+---
+
+## :material-numeric-5-circle: Criar o Job
+
+- [ ] UI → **Jobs & Pipelines** → **Create Job**
+- [ ] Nome: `pipeline_seguradora_medalhao`
+- [ ] Adicionar **5 tasks** com as configurações abaixo:
+
+| # | Task name | Tipo | Notebook path | Depends on |
+|---|-----------|------|---------------|------------|
+| 1 | `setup` | Notebook | `notebooks/00_setup_ambiente` | *(nenhum)* |
 | 2 | `landing` | Notebook | `notebooks/01_landing_extracao_mongo` | `setup` |
 | 3 | `bronze` | Notebook | `notebooks/02_bronze_ingestao` | `landing` |
 | 4 | `silver` | Notebook | `notebooks/03_silver_data_quality` | `bronze` |
 | 5 | `gold` | Notebook | `notebooks/04_gold_dimensional` | `silver` |
 
-- **Compute**: Serverless em todas.
-- **Max retries**: 1 em cada.
-- Se usar **Opção B** do Passo 2: adicionar Job Parameter `MONGODB_URI = mongodb+srv://...`.
+Para cada task:
 
-Salvar.
+- [ ] **Compute:** Serverless
+- [ ] **Max retries:** 1
+- [ ] Na task `landing`: se usar **Opção B** (Job Parameter), adicionar:
+      `MONGODB_URI = mongodb+srv://usuario:senha@cluster.mongodb.net/...`
 
-## Passo 6 — Run
+- [ ] Clicar em **Save**
 
-- Botão **Run now** no topo do Job.
-- Acompanhar o DAG: cada bolinha verde = task ok.
-- Tempo total esperado: 3–8 min (depende do cold start do Serverless).
+---
 
-## Passo 7 — Validação
+## :material-numeric-6-circle: Executar o Job
 
-Em qualquer notebook ou SQL editor:
+- [ ] No Job, clicar em **Run now** (topo da página)
+- [ ] Acompanhar o DAG: cada bolinha vira verde quando a task conclui com sucesso
+- [ ] Tempo total esperado: **3–8 minutos**
 
-```sql
-SHOW SCHEMAS IN workspace;                          -- landing, bronze, silver, gold
-SHOW TABLES IN bronze;                              -- 11 tabelas
-SHOW TABLES IN silver;                              -- 11 tabelas
-SHOW TABLES IN gold;                                -- 5 tabelas (4 dim + 1 fato)
-
-SELECT COUNT(*) FROM gold.fato_sinistro;            -- > 0
-SELECT * FROM silver.apolice LIMIT 5;               -- colunas em CAIXA_ALTA
-SELECT COUNT(*) FROM gold.dim_tempo;                -- ~1461 dias (4 anos)
+```mermaid
+stateDiagram-v2
+    [*] --> setup
+    setup --> landing
+    landing --> bronze
+    bronze --> silver
+    silver --> gold
+    gold --> [*]
 ```
 
-## Passo 8 — Entrega no GitHub
+!!! tip "Cold start"
+    O Serverless pode levar 30–90 segundos para inicializar na primeira execução.
+    Execuções subsequentes no mesmo dia são mais rápidas.
 
-- Push do branch `main` no GitHub.
-- Confirmar deploy do MkDocs em GitHub Pages (Actions → workflow `Deploy MkDocs` verde).
-- (Opcional) printar o DAG verde do Job e colocar no README ou docs.
+---
 
-## Troubleshooting
+## :material-numeric-7-circle: Validação
+
+Em qualquer notebook ou no **SQL Editor** do Databricks:
+
+```sql
+-- Verificar schemas criados
+SHOW SCHEMAS IN workspace;
+-- Esperado: landing, bronze, silver, gold
+
+-- Tabelas por camada
+SHOW TABLES IN bronze;   -- 11 tabelas
+SHOW TABLES IN silver;   -- 11 tabelas
+SHOW TABLES IN gold;     -- 5 tabelas (4 dim + 1 fato)
+
+-- Métricas da fato
+SELECT COUNT(*) AS total_sinistros FROM gold.fato_sinistro;
+
+-- Amostra da Silver (colunas em CAIXA_ALTA)
+SELECT * FROM silver.apolice LIMIT 5;
+
+-- Dimensão temporal (deve ter ~1461 dias)
+SELECT COUNT(*) AS dias, MIN(Data) AS inicio, MAX(Data) AS fim
+FROM gold.dim_tempo;
+
+-- Query analítica completa
+SELECT t.Ano, l.NOME_ESTADO, SUM(f.QTDE_SINISTRO) AS total
+FROM gold.fato_sinistro f
+INNER JOIN gold.dim_tempo       t ON f.FK_TEMPO      = t.Data
+INNER JOIN gold.dim_localidade  l ON f.FK_LOCALIDADE = l.SK_LOCALIDADE
+GROUP BY t.Ano, l.NOME_ESTADO
+ORDER BY total DESC;
+```
+
+---
+
+## :material-numeric-8-circle: Entrega no GitHub
+
+- [ ] Push do branch `main` no GitHub
+- [ ] Verificar **Actions** → workflow `Deploy MkDocs` deve ficar verde
+- [ ] Documentação publicada em:  
+      `https://gustavofelisbino.github.io/Databricks-Lakehouse-Medalhao-Mongo/`
+- [ ] (Opcional) Fazer print do DAG verde do Job e incluir no README
+
+---
+
+## :material-bug-outline: Troubleshooting { #troubleshooting }
 
 | Sintoma | Causa provável | Ação |
-|---|---|---|
-| `pymongo.errors.ServerSelectionTimeoutError` | Network Access do Atlas não liberado | Voltar ao Setup MongoDB, liberar `0.0.0.0/0` |
-| `AssertionError: MONGODB_URI não configurado` | Secret + widget ambos ausentes | Configurar Secret Scope OU passar Job Parameter |
-| `Authentication failed` | Senha incorreta ou URL-encoding necessário | Verificar usuário/senha; se senha tem `@:/?#`, URL-encodar ou trocar |
-| Task `gold` falha com `column not found` | Nome de coluna do silver não bate com SQL | Inspecionar `silver.sinistro` (e outras), ajustar nomes no notebook 04 |
-| Job lento | Cold start do Serverless | Normal na 1ª run; subsequentes são mais rápidas |
+|---------|---------------|------|
+| `pymongo.errors.ServerSelectionTimeoutError` | Network Access do Atlas não liberado | [Setup MongoDB](setup-mongo.md) → Passo 2: liberar `0.0.0.0/0` |
+| `AssertionError: MONGODB_URI não configurado` | Secret e widget ambos ausentes | Configurar Secret Scope **ou** passar Job Parameter |
+| `Authentication failed` | Senha incorreta ou URL-encoding necessário | Verificar usuário/senha; se contém `@:/?#`, trocar por caracteres simples |
+| Task `gold` falha com `column not found` | Nome de coluna do Silver não bate com o SQL do Gold | Inspecionar `silver.sinistro` e ajustar nomes no notebook `04_gold_dimensional` |
+| `AnalysisException: Table not found` | Task anterior não concluiu (schema não existe) | Verificar se a task `setup` concluiu com sucesso antes de rodar `landing` |
+| Job lento (> 10 min) | Cold start do Serverless | Normal na 1ª execução do dia; aguardar ou rodar `setup` manualmente antes |
+| `Cannot write to managed table` | Permissão de escrita no catálogo | Verificar que o usuário tem permissão no catálogo `workspace` |
+
+!!! tip "Debug interativo"
+    Para diagnosticar erros, execute cada notebook **manualmente** (Run all) antes
+    de criar o Job. Isso isola a task com falha e exibe o stack trace completo.
