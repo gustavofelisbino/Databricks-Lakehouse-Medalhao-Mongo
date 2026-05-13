@@ -198,8 +198,8 @@ SELECT dtem.Data           AS FK_TEMPO,
 FROM sinistro s
 INNER JOIN gold.dim_carro      dcar ON s.placa            = dcar.placa
 INNER JOIN apolice_cliente     ac   ON ac.placa           = s.placa
-INNER JOIN gold.dim_cliente    dcli ON ac.codigo_cliente  = dcli.codigo_cliente
-INNER JOIN gold.dim_localidade dloc ON s.local_sinistro   = dloc.codigo_municipio
+INNER JOIN gold.dim_cliente    dcli ON CAST(ac.codigo_cliente AS INT) = dcli.codigo_cliente
+INNER JOIN gold.dim_localidade dloc ON CAST(s.local_sinistro AS INT) = dloc.codigo_municipio
 INNER JOIN gold.dim_tempo      dtem ON CAST(s.data_sinistro AS DATE) = dtem.Data
 GROUP BY dtem.Data, dloc.sk_localidade, dcar.sk_carro, dcli.sk_cliente
 """)

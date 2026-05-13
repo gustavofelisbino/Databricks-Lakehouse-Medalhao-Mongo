@@ -43,9 +43,9 @@ resources:
             notebook_path: ./notebooks/04_gold_dimensional.py
           max_retries: 1
 
-targets:
-  dev:
-    default: true
-    workspace:
-      # Edite este host para o seu workspace
-      host: https://dbc-XXXXXXXX-XXXX.cloud.databricks.com
+# targets:
+#   dev:
+#     default: true
+#     workspace:
+#       host: https://<seu-workspace>.cloud.databricks.com
+# Descomente e ajuste o host acima ao usar `databricks bundle deploy`.
