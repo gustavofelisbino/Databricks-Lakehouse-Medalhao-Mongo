@@ -4,7 +4,7 @@
 
 **Trabalho 3 — Lakehouse com Databricks Free Edition e Arquitetura Medalhão**
 
-Aluno: **Gustavo Dias**
+Aluno: **Gustavo Dias e Lucas Oliverio**
 
 ---
 
@@ -368,9 +368,9 @@ Versão completa em [`docs/runbook-databricks.md`](docs/runbook-databricks.md).
 
 ---
 
-## 👤 Autor
+## 👤 Autores
 
-**Gustavo Dias** — Trabalho 3 · 2026-05-12
+**Gustavo Dias e Lucas Oliverio** — Trabalho 3 · 2026-05-12
 
 - GitHub: [@gustavofelisbino](https://github.com/gustavofelisbino)
 - Trabalhos anteriores:
