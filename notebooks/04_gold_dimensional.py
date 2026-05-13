@@ -200,7 +200,7 @@ INNER JOIN gold.dim_carro      dcar ON s.placa            = dcar.placa
 INNER JOIN apolice_cliente     ac   ON ac.placa           = s.placa
 INNER JOIN gold.dim_cliente    dcli ON ac.codigo_cliente  = dcli.codigo_cliente
 INNER JOIN gold.dim_localidade dloc ON s.local_sinistro   = dloc.codigo_municipio
-INNER JOIN gold.dim_tempo      dtem ON s.data_sinistro    = dtem.Data
+INNER JOIN gold.dim_tempo      dtem ON CAST(s.data_sinistro AS DATE) = dtem.Data
 GROUP BY dtem.Data, dloc.sk_localidade, dcar.sk_carro, dcli.sk_cliente
 """)
 

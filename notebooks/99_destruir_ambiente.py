@@ -8,9 +8,18 @@
 
 # COMMAND ----------
 # MAGIC %sql
-# MAGIC DROP SCHEMA IF EXISTS workspace.gold   CASCADE;
+# MAGIC DROP SCHEMA IF EXISTS workspace.gold CASCADE;
+
+# COMMAND ----------
+# MAGIC %sql
 # MAGIC DROP SCHEMA IF EXISTS workspace.silver CASCADE;
+
+# COMMAND ----------
+# MAGIC %sql
 # MAGIC DROP SCHEMA IF EXISTS workspace.bronze CASCADE;
+
+# COMMAND ----------
+# MAGIC %sql
 # MAGIC DROP SCHEMA IF EXISTS workspace.landing CASCADE;
 
 # COMMAND ----------
